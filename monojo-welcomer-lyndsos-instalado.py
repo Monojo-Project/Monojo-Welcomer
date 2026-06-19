@@ -72,18 +72,53 @@ def anadirBloqueTexto(parent, titulo, texto):
     tk.Label(box, text=texto, font=("Helvetica", 10), fg=get_color("text_main"), bg=get_color("bg_secundario"), justify=tk.LEFT, wraplength=660).pack(anchor=tk.W, pady=(4,0))
 
 # DEFINICIÓN DE LAS PÁGINAS
-def pagina_bienvenida(parent):
-    crear_cabecera(parent, "Bienvenido a LyndsOS", "Ya tienes tu sistema listo para el uso diario.")
-    anadirImagen(parent, "welcome.png", resolucion=(680, 180))
-    anadirTexto(parent, "LyndsOS está correctamente instalado en tu equipo. Disfruta de un entorno optimizado, seguro y basado en la estabilidad de Debian.")
-    anadirTexto(parent, "Este asistente te ayudará a conocer las herramientas básicas que hemos incluido para ti.")
 
+def pagina_bienvenida(parent):
+    crear_cabecera(parent, "Bienvenido a LyndsOS Live", "Explora tu nuevo sistema directamente desde el USB.")
+    anadirImagen(parent, "welcome.png", resolucion=(680, 180))
+    anadirTexto(parent, "Estás ejecutando una sesión Live. Esto significa que puedes probar todas las herramientas y el rendimiento del sistema operativo sin realizar cambios permanentes en tu ordenador.")
+    anadirTexto(parent, "Todos tus archivos en esta sesión desaparecerán al apagar el ordenador ya que viven en la RAM.")
+    
 def pagina_caracteristicas(parent):
     crear_cabecera(parent, "Características Principales", "Conoce la filosofía de tu nuevo entorno.")
     anadirBloqueTexto(parent, "Base Debian", "Basado en el sistema operativo más estable y fiable de Linux.")
     anadirBloqueTexto(parent, "Ligero y Optimizado", "Al ser Linux, consume 4 veces menos recursos que Windows.")
     anadirBloqueTexto(parent, "Personalización Absoluta", "Puedes cambiar lo que quieras sin problemas.")
+    
+def pagina_casata(parent):
+    crear_cabecera(parent, "Casata", "El instalador de aplicaciones.")
+    anadirBloqueTexto(parent, "Cómo usarlo", "Escribe casata --ayuda en la terminal y recibirás una guía detallada.")
+    anadirBloqueTexto(parent, "Cómo funciona", "Utiliza repositorios en GitHub como servidor y APT para instalar dependencias.")
+    anadirBloqueTexto(parent, "Apps de Lynds", "Puedes instalar aplicaciones del ecosistema de Lynds sin problemas.")
+   
+def pagina_instalacion(parent):
+    crear_cabecera(parent, "Instalar LyndsOS", "Haz que este sistema sea tu entorno diario.")
+    anadirTexto(parent, "Si te gusta el rendimiento y la estética de LyndsOS, puedes instalarlo en tu disco duro.") 
+    anadirBloqueTexto(parent, "Instalador Gráfico", "Hemos preparado a Abracitos, un instalador visual que te guiará paso a paso para configurar el sistema de forma sencilla y segura.")
+    
+    # Botón central para lanzar el instalador
+    frame_btn = tk.Frame(parent, bg=get_color("bg_main"))
+    frame_btn.pack(fill=tk.X, pady=20)
+    
+    btn_instalar = tk.Button(
+        frame_btn, text="Lanzar Instalador Abracitos", font=("Helvetica", 12, "bold"), 
+        bd=0, padx=30, pady=12, cursor="hand2", 
+        bg=get_color("accent"), fg=get_color("btn_fg"), activebackground=get_color("accent_hover"),
+        command=lanzar_instalador
+    )
+    btn_instalar.pack(anchor=tk.CENTER)
+    anadirImagen(parent, "abracitos.png", resolucion=(680, 180))
+    
+def lanzar_instalador():
+    try:
+        # Se ejecuta el instalador de forma asíncrona para no congelar la app de bienvenida
+        subprocess.Popen(["abracitos"])
+    except FileNotFoundError:
+        messagebox.showerror("Error", "No se ha encontrado el ejecutable del instalador 'abracitos'.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Fallo al lanzar el instalador: {str(e)}")
 
+    
 def pagina_apps(parent):
     crear_cabecera(parent, "Herramientas Propias", "Diseñadas para ser fáciles de utilizar.")
     anadirImagen(parent, "3monojos.png", resolucion=(680, 180))
@@ -93,27 +128,21 @@ def pagina_apps(parent):
 
 def pagina_software(parent):
     crear_cabecera(parent, "Software y Actualizaciones", "Mantén tu sistema seguro y estable")
-    anadirTexto(parent, "LyndsOS se apoya en los repositorios oficiales de Debian Trixie.")
-    anadirBloqueTexto(parent, "Actualizaciones del Sistema", "Ejecuta: sudo apt update && sudo apt upgrade.")
-    anadirBloqueTexto(parent, "Instalar Nuevos Programas", "Usa: sudo apt install <nombre_programa>.")
+    anadirTexto(parent, "LyndsOS se apoya en los repositorios oficiales de Debian Trixie, dándote acceso a un catálogo de miles de aplicaciones estables.")
+    anadirBloqueTexto(parent, "Actualizaciones del Sistema", "Puedes buscar actualizaciones de forma segura desde la terminal ejecutando el comando: sudo apt update && sudo apt upgrade.")
+    anadirBloqueTexto(parent, "Instalar Nuevos Programas", "Escribe en la terminal: sudo apt install <nombre_programa>. Así actualizas un programa o lo instalas.")
     anadirImagen(parent, "debian13.png", resolucion=(680, 180))
-    
-def pagina_casata(parent):
-    crear_cabecera(parent, "Casata", "El instalador de aplicaciones.")
-    anadirBloqueTexto(parent, "Cómo usarlo", "Escribe casata --ayuda en la terminal y recibirás una guía detallada.")
-    anadirBloqueTexto(parent, "Cómo funciona", "Utiliza repositorios en GitHub como servidor y APT para instalar dependencias.")
-    anadirBloqueTexto(parent, "Apps de Lynds", "Puedes instalar aplicaciones del ecosistema de Lynds sin problemas.")
 
 def pagina_atajos(parent):
-    crear_cabecera(parent, "Atajos de Teclado Útiles", "Domina la navegación de tu escritorio.")
-    anadirBloqueTexto(parent, "Lanzar el Menú", "Presiona la tecla [ Super ] para buscar aplicaciones.")
-    anadirBloqueTexto(parent, "Consola / Terminal", "Abre una terminal con: [ Ctrl + Alt + T ].")
-    anadirBloqueTexto(parent, "Explorador de Archivos", "Accede a tus archivos con: [ Super + E ].")
+    crear_cabecera(parent, "Atajos de Teclado Útiles", "Domina la navegación de tu escritorio en segundos.")
+    anadirBloqueTexto(parent, "Lanzar el Menú", "Presiona la tecla [ Super ] (o tecla Windows) para desplegar el menú de aplicaciones y buscar lo que necesitas.")
+    anadirBloqueTexto(parent, "Consola / Terminal", "Abre una nueva terminal rápidamente usando la combinación clásica: [ Ctrl + Alt + T ].")
+    anadirBloqueTexto(parent, "Explorador de Archivos", "Accede a tu carpeta personal de manera instantánea presionando la combinación: [ Super + E ].")
 
 def pagina_final(parent):
     crear_cabecera(parent, "¡Todo Listo!", "Disfruta de la experiencia completa.")
     anadirImagen(parent, "welcome.png", resolucion=(680, 180))
-    anadirTexto(parent, "Gracias por elegir LyndsOS. Ya puedes cerrar este asistente y comenzar a trabajar.")
+    anadirTexto(parent, "Ya puedes cerrar este asistente y adentrarte de lleno en tu nuevo entorno de trabajo. ¡Gracias por probar LyndsOS!")
 
 # MOTOR DE NAVEGACION Y VENTANA PRINCIPAL
 
@@ -195,6 +224,7 @@ class MonojoWelcomeApp(tk.Tk):
 LISTA_PAGINAS = [
     pagina_bienvenida,
     pagina_caracteristicas,
+    pagina_instalacion,
     pagina_apps,
     pagina_software,
     pagina_casata,
