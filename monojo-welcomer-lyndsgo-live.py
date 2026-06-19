@@ -228,7 +228,7 @@ LISTA_PAGINAS = [
 ]
 
 if __name__ == "__main__":
-    ruta = os.path.expanduser("/home/user/.config/autostart/monojo-welcomer.desktop")
+    ruta = os.path.expanduser("~/.config/autostart/monojo-welcomer.desktop")
     
     if os.path.exists(ruta):
         try:
