@@ -223,7 +223,7 @@ LISTA_PAGINAS = [
     pagina_instalacion,
     pagina_apps,
     pagina_software,
-    pagina_atajos,
+    pagina_casata,
     pagina_final
 ]
 
