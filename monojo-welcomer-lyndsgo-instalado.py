@@ -190,7 +190,6 @@ class MonojoWelcomeApp(tk.Tk):
 LISTA_PAGINAS = [
     pagina_bienvenida,
     pagina_caracteristicas,
-    pagina_instalacion,
     pagina_apps,
     pagina_software,
     pagina_casata,
